@@ -72,7 +72,7 @@ namespace Client
         {
             //Hien thi thoi gian ghi audio
             TimeSpan timeSpan = TimeSpan.FromSeconds(stopwatch.Elapsed.TotalSeconds);
-            label1.Text = $"Recording: {timeSpan.Hours}:{timeSpan.Minutes}:{timeSpan.Seconds}";
+            label1.Text = $"Recording: {timeSpan.Minutes}:{timeSpan.Seconds}";
         }
 
         private void btnStop_Click(object sender, EventArgs e)
@@ -108,6 +108,11 @@ namespace Client
                 }
             }
                 
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
