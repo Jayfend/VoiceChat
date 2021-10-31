@@ -65,6 +65,7 @@ namespace Client
             this.Close();
 
             //test
+            // day la comment
         }
 
         private void timer1_Tick(object sender, EventArgs e)
