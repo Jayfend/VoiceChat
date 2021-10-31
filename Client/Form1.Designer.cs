@@ -120,7 +120,7 @@ namespace Client
             // txtMessage
             // 
             this.txtMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtMessage.Location = new System.Drawing.Point(44, 566);
+            this.txtMessage.Location = new System.Drawing.Point(87, 564);
             this.txtMessage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtMessage.Multiline = true;
             this.txtMessage.Name = "txtMessage";
@@ -132,7 +132,7 @@ namespace Client
             this.btnSend.BackgroundImage = global::Client.Properties.Resources.Send;
             this.btnSend.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnSend.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSend.Location = new System.Drawing.Point(514, 566);
+            this.btnSend.Location = new System.Drawing.Point(495, 564);
             this.btnSend.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(50, 40);
@@ -146,7 +146,7 @@ namespace Client
             this.btnvoice.BackgroundImage = global::Client.Properties.Resources.Mic;
             this.btnvoice.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnvoice.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnvoice.Location = new System.Drawing.Point(604, 566);
+            this.btnvoice.Location = new System.Drawing.Point(557, 564);
             this.btnvoice.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnvoice.Name = "btnvoice";
             this.btnvoice.Size = new System.Drawing.Size(40, 40);
@@ -158,7 +158,7 @@ namespace Client
             // 
             this.btnConnect.BackColor = System.Drawing.Color.Transparent;
             this.btnConnect.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConnect.Location = new System.Drawing.Point(514, 46);
+            this.btnConnect.Location = new System.Drawing.Point(569, 30);
             this.btnConnect.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(75, 50);
