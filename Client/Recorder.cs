@@ -63,6 +63,8 @@ namespace Client
             CaptureInstance.Dispose();
             CaptureInstance = null;
             this.Close();
+
+
         }
 
         private void timer1_Tick(object sender, EventArgs e)
