@@ -64,7 +64,7 @@ namespace Client
             CaptureInstance = null;
             this.Close();
 
-
+            //test
         }
 
         private void timer1_Tick(object sender, EventArgs e)
