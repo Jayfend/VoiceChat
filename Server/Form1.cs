@@ -79,18 +79,34 @@ namespace Server
                 {
                     byte[] data = new byte[1024 * 5000];                    
                     client.Receive(data);
-                    data = TrimEnd(data);
+                   /* data = TrimEnd(data);
 
                     
                     AudioPlayer audioPlayer = new AudioPlayer();
                     audioPlayer.PlayAudio(data);
-
-                    //doan nay sau khi apply sql se lam tiep
-                    /*
-                    memberinfo = Deserialize(data);                    
-                    string s = memberinfo.Name + ": " + memberinfo.Message;
-                    AddMessage(s);
                     */
+                    //doan nay sau khi apply sql se lam tiep
+                    
+                    memberinfo = Deserialize(data);
+                    if (memberinfo.Message != null)
+                    {
+                        string s = memberinfo.Name + ": " + memberinfo.Message;
+                        AddMessage(s);
+                    }
+                    if (memberinfo.Audio_ID != null)
+                    { AudioDbContext db = new AudioDbContext();
+                        var query = from m in db.Audios
+                                    where memberinfo.Audio_ID == m.ID.ToString()
+                                    select m;
+                        foreach (var audiodata in query)
+                        {
+                            data = TrimEnd(audiodata.AudioData);
+                            AudioPlayer audioPlayer = new AudioPlayer();
+                            audioPlayer.PlayAudio(data);
+                        }
+
+                    }
+                   
                 }
             }
             catch (Exception ex)
@@ -104,12 +120,12 @@ namespace Server
             // proper way to serialize object
             var objToString = JsonConvert.SerializeObject(obj);
             // convert that that to string with ascii you can chose what ever encoding want
-            return System.Text.Encoding.ASCII.GetBytes(objToString);
+            return System.Text.UTF8Encoding.ASCII.GetBytes(objToString);
         }
         MessageModel Deserialize(byte[] data) // gộp mảnh
         {
             // make sure you use same type what you use chose during conversation
-            var stringObj = System.Text.Encoding.ASCII.GetString(data);
+            var stringObj = System.Text.UTF8Encoding.ASCII.GetString(data);
             // proper way to Deserialize object
             return JsonConvert.DeserializeObject<MessageModel>(stringObj);
 

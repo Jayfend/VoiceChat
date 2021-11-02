@@ -77,12 +77,12 @@ namespace Client
             // proper way to serialize object
             var objToString = JsonConvert.SerializeObject(message);
             // convert that that to string with ascii you can chose what ever encoding want
-            return System.Text.Encoding.ASCII.GetBytes(objToString);
+            return System.Text.UTF8Encoding.ASCII.GetBytes(objToString);
         }
         MessageModel Deserialize(byte[] data) // gộp mảnh
         {
             // make sure you use same type what you use chose during conversation
-            var stringObj = System.Text.Encoding.ASCII.GetString(data);
+            var stringObj = System.Text.UTF8Encoding.ASCII.GetString(data);
             // proper way to Deserialize object
             return JsonConvert.DeserializeObject<MessageModel>(stringObj);
 
@@ -126,9 +126,15 @@ namespace Client
 
 
                 //Luu byte[] vao database
+                using ( var db = new AudioDbContext())
+                    {
+                    var Audioitem = new Audio() { AudioData = voiceData };
+                    db.Audios.Add(Audioitem);
+                    db.SaveChanges();
+                    member.Audio_ID = Audioitem.ID.ToString();
+                }
 
-
-                Client.Send(voiceData);
+                Client.Send(Serialize(member));
             }
             else
             {
