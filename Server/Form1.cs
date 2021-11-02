@@ -31,7 +31,7 @@ namespace Server
             Close();
         }
         MessageModel memberinfo;
-        MessageModel member;
+       
         IPEndPoint IP;
         Socket server;
         List<Socket> clientList;
@@ -79,13 +79,6 @@ namespace Server
                 {
                     byte[] data = new byte[1024 * 5000];                    
                     client.Receive(data);
-                   /* data = TrimEnd(data);
-
-                    
-                    AudioPlayer audioPlayer = new AudioPlayer();
-                    audioPlayer.PlayAudio(data);
-                    */
-                    //doan nay sau khi apply sql se lam tiep
                     
                     memberinfo = Deserialize(data);
                     if (memberinfo.Message != null)
@@ -94,7 +87,8 @@ namespace Server
                         AddMessage(s);
                     }
                     if (memberinfo.Audio_ID != null)
-                    { AudioDbContext db = new AudioDbContext();
+                    { 
+                        AudioDbContext db = new AudioDbContext();
                         var query = from m in db.Audios
                                     where memberinfo.Audio_ID == m.ID.ToString()
                                     select m;
@@ -117,16 +111,21 @@ namespace Server
         }
         byte[] Serialize(object obj) // phân mảnh
         {
-            // proper way to serialize object
+            
             var objToString = JsonConvert.SerializeObject(obj);
-            // convert that that to string with ascii you can chose what ever encoding want
-            return System.Text.UTF8Encoding.ASCII.GetBytes(objToString);
+           
+            MemoryStream stream = new MemoryStream();
+            BinaryFormatter formatter = new BinaryFormatter();
+            formatter.Serialize(stream, objToString);
+            return stream.ToArray();
         }
         MessageModel Deserialize(byte[] data) // gộp mảnh
         {
+            MemoryStream stream = new MemoryStream(data);
+            BinaryFormatter formatter = new BinaryFormatter();
+            var stringObj =(string)formatter.Deserialize(stream);
             // make sure you use same type what you use chose during conversation
-            var stringObj = System.Text.UTF8Encoding.ASCII.GetString(data);
-            // proper way to Deserialize object
+
             return JsonConvert.DeserializeObject<MessageModel>(stringObj);
 
         }
@@ -134,6 +133,7 @@ namespace Server
         void AddMessage(String s)
         {
             lsvMessage.Items.Add(new ListViewItem() { Text = s });
+            txtMessage.Clear();
         }
         private void BtnSend_Click(object sender, EventArgs e)
         {
@@ -141,10 +141,12 @@ namespace Server
             {
                 Send(item);
             }
-            txtMessage.Clear();
+            
         }
         void Send(Socket client)
         {
+            MessageModel member;
+            member = new MessageModel(0,0, null, "Server");
             member.Message =txtMessage.Text;
             if (member.Message != String.Empty)
                 client.Send(Serialize(member));

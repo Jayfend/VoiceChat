@@ -28,10 +28,10 @@ namespace Client
         IPEndPoint IP;
         Socket Client;
         MessageModel memberinfo;
-        MessageModel member;
+
         void Connect()//tạo kết nối
         {
-             member = new MessageModel(int.Parse(txtID.Text), int.Parse(txtGroupID.Text), null, txtName.Text);
+            
             IP = new IPEndPoint(IPAddress.Parse("127.0.0.1"),7749);
             Client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
             try
@@ -68,26 +68,32 @@ namespace Client
         }
         void Send()
         {
+            MessageModel member;
+            member = new MessageModel(int.Parse(txtID.Text), int.Parse(txtGroupID.Text), null, txtName.Text);
             member.Message = txtMessage.Text;
             if (member.Message != String.Empty)
                 Client.Send(Serialize(member));
         }
-        byte[] Serialize(MessageModel message) // phân mảnh
+        byte[] Serialize(object obj) // phân mảnh
         {
-            // proper way to serialize object
-            var objToString = JsonConvert.SerializeObject(message);
-            // convert that that to string with ascii you can chose what ever encoding want
-            return System.Text.UTF8Encoding.ASCII.GetBytes(objToString);
+
+            var objToString = JsonConvert.SerializeObject(obj);
+
+            MemoryStream stream = new MemoryStream();
+            BinaryFormatter formatter = new BinaryFormatter();
+            formatter.Serialize(stream, objToString);
+            return stream.ToArray();
         }
         MessageModel Deserialize(byte[] data) // gộp mảnh
         {
+            MemoryStream stream = new MemoryStream(data);
+            BinaryFormatter formatter = new BinaryFormatter();
+            var stringObj = (string)formatter.Deserialize(stream);
             // make sure you use same type what you use chose during conversation
-            var stringObj = System.Text.UTF8Encoding.ASCII.GetString(data);
-            // proper way to Deserialize object
+
             return JsonConvert.DeserializeObject<MessageModel>(stringObj);
 
         }
-   
         void AddMessage(String s)
         {
             lsvMessage.Items.Add(new ListViewItem() { Text = s });
@@ -101,21 +107,28 @@ namespace Client
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
+            if (txtName.Text == string.Empty || txtID.Text == string.Empty || txtGroupID.Text == string.Empty)
+            {
+                MessageBox.Show("Vui lòng điền đủ thông tin!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            }
             CheckForIllegalCrossThreadCalls = false;
             Connect();
         }
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-                
-                Send();
-                AddMessage(member.Name+": "+member.Message);
+            
+            Send();
+                AddMessage(txtName.Text+": "+txtMessage.Text);
 
             
         }
 
         private void btnvoice_Click(object sender, EventArgs e)
         {
+            MessageModel member;
+            member = new MessageModel(int.Parse(txtID.Text), int.Parse(txtGroupID.Text), null, txtName.Text);
             Recorder recorder = new Recorder();
             var dialogResult = recorder.ShowDialog();
 
