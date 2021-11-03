@@ -28,7 +28,7 @@ namespace Client
         IPEndPoint IP;
         Socket Client;
         MessageModel memberinfo;
-
+        Thread listenThread;
         void Connect()//tạo kết nối
         {
             
@@ -43,9 +43,9 @@ namespace Client
                 MessageBox.Show("Không thể kết nối!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            Thread listen = new Thread(Receive);
-            listen.IsBackground = true;
-            listen.Start();
+            listenThread = new Thread(Receive);
+            listenThread.IsBackground = true;
+            listenThread.Start();
             
         }
         void Receive()
@@ -58,23 +58,14 @@ namespace Client
 
                     Client.Receive(data);
                      memberinfo = Deserialize(data);
-                    if (memberinfo.Message != null && memberinfo.Name!=txtName.Text)
+                    if (!string.IsNullOrEmpty(memberinfo.Message))
                     {
                         string s = memberinfo.Name + ": " + memberinfo.Message;
                         AddMessage(s);
                     }
-                    if (memberinfo.Audio_ID != null && memberinfo.Name != txtName.Text)
+                    if (!string.IsNullOrEmpty(memberinfo.Audio_ID))
                     {
-                        AudioDbContext db = new AudioDbContext();
-                        var query = from m in db.Audios
-                                    where memberinfo.Audio_ID == m.ID.ToString()
-                                    select m;
-                        foreach (var audiodata in query)
-                        {
-                            data = TrimEnd(audiodata.AudioData);
-                            AudioPlayer audioPlayer = new AudioPlayer();
-                            audioPlayer.PlayAudio(data);
-                        }
+                        AddVoice(memberinfo);
 
                     }
                 }
@@ -112,15 +103,25 @@ namespace Client
             return JsonConvert.DeserializeObject<MessageModel>(stringObj);
 
         }
+        void AddVoice(MessageModel message)
+        {            
+            lsvMessage.Items.Add(new ListViewItem()
+            {
+                Text = $"[>Voice: {message.Name}<]",
+                Tag = message.Audio_ID,
+                ImageIndex = 0,                
+                BackColor = Color.LimeGreen,
+                ForeColor = Color.White
+            });
+        }
         void AddMessage(String s)
         {
-            lsvMessage.Items.Add(new ListViewItem() { Text = s });
+            lsvMessage.Items.Add(new ListViewItem()
+            {
+                Text = s,
+                ImageIndex = 1
+            }); ;
             txtMessage.Clear();
-        }
-        void Close() //đóng kết nối
-        {
-            Client.Close();
-
         }
 
         private void btnConnect_Click(object sender, EventArgs e)
@@ -140,7 +141,7 @@ namespace Client
         private void btnSend_Click(object sender, EventArgs e)
         {
             
-            Send();
+                  Send();
                 AddMessage(txtName.Text+": "+txtMessage.Text);
 
             
@@ -166,14 +167,16 @@ namespace Client
                     db.Audios.Add(Audioitem);
                     db.SaveChanges();
                     member.Audio_ID = Audioitem.ID.ToString();
+                    
                 }
-
+                AddVoice(member);
                 Client.Send(Serialize(member));
             }
             else
             {
                 MessageBox.Show("Voice audio cancelled");
             }
+            
         }
 
         public byte[] TrimEnd(byte[] array)
@@ -188,6 +191,34 @@ namespace Client
         {
 
         }
-        
+
+        private void lsvMessage_Click(object sender, EventArgs e)
+        {
+            if(lsvMessage.SelectedItems.Count > 0)
+            {
+                string voiceId = lsvMessage.SelectedItems[0].Tag.ToString();
+                if (!string.IsNullOrEmpty(voiceId))
+                {
+                    using(AudioDbContext db = new AudioDbContext())
+                    {
+                        var query = from m in db.Audios
+                                    where voiceId == m.ID.ToString()
+                                    select m;
+                        foreach (var audiodata in query)
+                        {
+                            byte[] data = TrimEnd(audiodata.AudioData);
+                            AudioPlayer audioPlayer = new AudioPlayer();
+                            audioPlayer.PlayAudio(data);
+                        }
+                    }                    
+                    
+                }
+            }
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            listenThread.Abort();
+        }
     }
 }

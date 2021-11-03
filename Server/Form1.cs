@@ -28,10 +28,11 @@ namespace Server
 
         private void Form1_Closed(object sender, FormClosedEventArgs e)
         {
-            Close();
+            server.Close();
+            ListenThread.Abort();
         }
         MessageModel memberinfo;
-       
+        Thread ListenThread;
         IPEndPoint IP;
         Socket server;
         List<Socket> clientList;
@@ -42,7 +43,7 @@ namespace Server
             IP = new IPEndPoint(IPAddress.Any, 7749);
             server = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
             server.Bind(IP);
-            Thread Listen = new Thread(() =>
+            ListenThread = new Thread(() =>
             {
                 try
                 {
@@ -70,8 +71,8 @@ namespace Server
                 }
             });
 
-            Listen.IsBackground = true;
-            Listen.Start();
+            ListenThread.IsBackground = true;
+            ListenThread.Start();
 
         }
         
@@ -87,29 +88,44 @@ namespace Server
                     byte[] data = new byte[1024 * 5000];                    
                     client.Receive(data);
                     
-                    memberinfo = Deserialize(data);
-                    int dem = 0;
-                    foreach (Group gr in Groups)
+                    memberinfo = Deserialize(data);                    
+                    Group gr = Groups.FirstOrDefault(g => g.ID == memberinfo.Group_ID);
+                    if(gr != null)
                     {
-                        if (gr.ID == memberinfo.Group_ID)
+                        if(gr.SocketGroupList.Any(c => c.Id == memberinfo.ID) == false)
                         {
-                            gr.SocketGroupList.Add(client);
-                            dem++;
-                            break;
+                            gr.SocketGroupList.Add(new Member
+                            {
+                                Id = memberinfo.ID,
+                                Name = memberinfo.Name,
+                                Socket = client
+                            });
                         }
                     }
-                    if (dem == 0)
+                    else
                     {
-                        Group g = new Group(memberinfo.Group_ID);
-                        g.SocketGroupList.Add(client);
-                        Groups.Add(g);
+                        gr = new Group
+                        {
+                            ID = memberinfo.Group_ID,
+                            SocketGroupList = new List<Member>
+                            {
+                                new Member
+                                {
+                                    Id = memberinfo.ID,
+                                    Name = memberinfo.Name,
+                                    Socket = client
+                                }
+                            }
+                        };                        
+                        Groups.Add(gr);
                     }
+
                     if (memberinfo.Message != null)
                     {
                         string s = memberinfo.Name + ": " + memberinfo.Message;
                         AddMessage(s);
                     }
-                    GroupSend(client);
+                    GroupSend(gr);
                     
                     /*if (memberinfo.Audio_ID != null)
                     { 
@@ -187,23 +203,14 @@ namespace Server
 
             return array;
         }
-        public void GroupSend(Socket sk)
+        public void GroupSend(Group gr)
         {
-            int test = 0;
-            foreach (Group gr in Groups)
+            foreach(Member member in gr.SocketGroupList)
             {
-                if (gr.ID == memberinfo.Group_ID)
+                if(member.Id != memberinfo.ID)
                 {
-                    foreach (Socket cl in gr.SocketGroupList)
-                    { 
-                        
-                            SendData(cl, Serialize(memberinfo));
-                            test++;
-                        
-                    }
-                    break;
+                    SendData(member.Socket, Serialize(memberinfo));
                 }
-                break;
             }
         }
         private void btnSend_Click(object sender, EventArgs e)

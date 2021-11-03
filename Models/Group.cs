@@ -10,11 +10,10 @@ namespace Models
     public class Group
     {
         public int ID { get; set; }
-        public List<Socket> SocketGroupList { get; set; }
-        public Group(int ID_)
+        public List<Member> SocketGroupList { get; set; }
+        public Group()
         {
-            ID = ID_;
-            SocketGroupList = new List<Socket>();
+            SocketGroupList = new List<Member>();
         }
     }
 }

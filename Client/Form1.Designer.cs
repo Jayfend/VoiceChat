@@ -29,6 +29,8 @@ namespace Client
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.txtName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
@@ -40,6 +42,7 @@ namespace Client
             this.btnSend = new System.Windows.Forms.Button();
             this.btnvoice = new System.Windows.Forms.Button();
             this.btnConnect = new System.Windows.Forms.Button();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.SuspendLayout();
             // 
             // txtName
@@ -111,11 +114,14 @@ namespace Client
             this.lsvMessage.HideSelection = false;
             this.lsvMessage.Location = new System.Drawing.Point(44, 139);
             this.lsvMessage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.lsvMessage.MultiSelect = false;
             this.lsvMessage.Name = "lsvMessage";
             this.lsvMessage.Size = new System.Drawing.Size(600, 400);
+            this.lsvMessage.SmallImageList = this.imageList1;
             this.lsvMessage.TabIndex = 6;
             this.lsvMessage.UseCompatibleStateImageBehavior = false;
             this.lsvMessage.View = System.Windows.Forms.View.List;
+            this.lsvMessage.Click += new System.EventHandler(this.lsvMessage_Click);
             // 
             // txtMessage
             // 
@@ -131,6 +137,7 @@ namespace Client
             // 
             this.btnSend.BackgroundImage = global::Client.Properties.Resources.Send;
             this.btnSend.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSend.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.btnSend.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSend.Location = new System.Drawing.Point(495, 564);
             this.btnSend.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -167,6 +174,13 @@ namespace Client
             this.btnConnect.UseVisualStyleBackColor = false;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "icons8_play_64px_1.png");
+            this.imageList1.Images.SetKeyName(1, "icons8_person_64px.png");
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
@@ -188,6 +202,7 @@ namespace Client
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Name = "Form1";
             this.Text = "Client";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -207,6 +222,7 @@ namespace Client
         private System.Windows.Forms.Button btnSend;
         private System.Windows.Forms.Button btnvoice;
         private System.Windows.Forms.Button btnConnect;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }
 
