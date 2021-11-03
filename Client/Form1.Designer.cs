@@ -143,6 +143,7 @@ namespace Client
             this.txtMessage.Name = "txtMessage";
             this.txtMessage.Size = new System.Drawing.Size(400, 40);
             this.txtMessage.TabIndex = 7;
+            this.txtMessage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMessage_KeyPress);
             // 
             // btnSend
             // 

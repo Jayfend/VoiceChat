@@ -159,6 +159,11 @@ namespace Client
 
         private void btnSend_Click(object sender, EventArgs e)
         {
+            SendMessage();
+        }
+
+        private void SendMessage()
+        {
             if (!string.IsNullOrEmpty(txtMessage.Text))
             {
                 Send();
@@ -242,6 +247,12 @@ namespace Client
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             listenThread.Abort();
+        }
+
+        private void txtMessage_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+                SendMessage();
         }
     }
 }
