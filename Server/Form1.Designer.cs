@@ -38,7 +38,7 @@ namespace Server
             // 
             this.lsvMessage.HideSelection = false;
             this.lsvMessage.Location = new System.Drawing.Point(38, 36);
-            this.lsvMessage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.lsvMessage.Margin = new System.Windows.Forms.Padding(4);
             this.lsvMessage.Name = "lsvMessage";
             this.lsvMessage.Size = new System.Drawing.Size(600, 400);
             this.lsvMessage.TabIndex = 7;
@@ -48,7 +48,7 @@ namespace Server
             // txtMessage
             // 
             this.txtMessage.Location = new System.Drawing.Point(75, 455);
-            this.txtMessage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtMessage.Margin = new System.Windows.Forms.Padding(4);
             this.txtMessage.Multiline = true;
             this.txtMessage.Name = "txtMessage";
             this.txtMessage.Size = new System.Drawing.Size(468, 40);
@@ -60,11 +60,12 @@ namespace Server
             this.btnSend.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnSend.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSend.Location = new System.Drawing.Point(551, 455);
-            this.btnSend.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnSend.Margin = new System.Windows.Forms.Padding(4);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(50, 40);
             this.btnSend.TabIndex = 9;
             this.btnSend.UseVisualStyleBackColor = true;
+            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
             // Form1
             // 
@@ -76,7 +77,7 @@ namespace Server
             this.Controls.Add(this.txtMessage);
             this.Controls.Add(this.lsvMessage);
             this.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Form1";
             this.Text = "Server";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_Closed);

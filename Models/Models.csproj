@@ -87,6 +87,7 @@
     <Compile Include="Audio.cs" />
     <Compile Include="AudioDbContext.cs" />
     <Compile Include="AudioPlayer.cs" />
+    <Compile Include="Group.cs" />
     <Compile Include="MessageModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

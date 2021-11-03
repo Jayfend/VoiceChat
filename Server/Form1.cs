@@ -35,6 +35,7 @@ namespace Server
         IPEndPoint IP;
         Socket server;
         List<Socket> clientList;
+        List<Group> Groups = new List<Group>();
         void Connect()//tạo kết nối
         {
             clientList = new List<Socket>();
@@ -52,6 +53,10 @@ namespace Server
                         server.Listen(100);
                         Socket client = server.Accept();
                         clientList.Add(client);
+                        //byte[] data = new byte[1024 * 5000];
+                        //client.Receive(data);
+                        //memberinfo = Deserialize(data);
+                        //GroupCreator(client,memberinfo);
 
                         Thread receive = new Thread(Receive);
                         receive.IsBackground = true;
@@ -72,21 +77,41 @@ namespace Server
         
         void Receive(Object obj)
         {
+            
             Socket client = obj as Socket;
             try
-            {
+
+            { 
                 while (true)
                 {
                     byte[] data = new byte[1024 * 5000];                    
                     client.Receive(data);
                     
                     memberinfo = Deserialize(data);
+                    int dem = 0;
+                    foreach (Group gr in Groups)
+                    {
+                        if (gr.ID == memberinfo.Group_ID)
+                        {
+                            gr.SocketGroupList.Add(client);
+                            dem++;
+                            break;
+                        }
+                    }
+                    if (dem == 0)
+                    {
+                        Group g = new Group(memberinfo.Group_ID);
+                        g.SocketGroupList.Add(client);
+                        Groups.Add(g);
+                    }
                     if (memberinfo.Message != null)
                     {
                         string s = memberinfo.Name + ": " + memberinfo.Message;
                         AddMessage(s);
                     }
-                    if (memberinfo.Audio_ID != null)
+                    GroupSend(client);
+                    
+                    /*if (memberinfo.Audio_ID != null)
                     { 
                         AudioDbContext db = new AudioDbContext();
                         var query = from m in db.Audios
@@ -99,15 +124,17 @@ namespace Server
                             audioPlayer.PlayAudio(data);
                         }
 
-                    }
-                   
+                    }*/
+
                 }
+                
             }
             catch (Exception ex)
             {
                 clientList.Remove(client);
                 client.Close();
             }
+            
         }
         byte[] Serialize(object obj) // phân mảnh
         {
@@ -135,21 +162,21 @@ namespace Server
             lsvMessage.Items.Add(new ListViewItem() { Text = s });
             txtMessage.Clear();
         }
-        private void BtnSend_Click(object sender, EventArgs e)
+
+        private static void SendData(Socket s, byte[] data)
         {
-            foreach (Socket item in clientList)
+            int total = 0;
+            int size = data.Length;
+            int dataleft = size;
+            int sent;
+
+            while (total < size)
             {
-                Send(item);
+                sent = s.Send(data, total, dataleft, SocketFlags.None);
+                total += sent;
+                dataleft -= sent;
             }
-            
-        }
-        void Send(Socket client)
-        {
-            MessageModel member;
-            member = new MessageModel(0,0, null, "Server");
-            member.Message =txtMessage.Text;
-            if (member.Message != String.Empty)
-                client.Send(Serialize(member));
+
         }
 
         public byte[] TrimEnd(byte[] array)
@@ -160,5 +187,43 @@ namespace Server
 
             return array;
         }
+        public void GroupSend(Socket sk)
+        {
+            int test = 0;
+            foreach (Group gr in Groups)
+            {
+                if (gr.ID == memberinfo.Group_ID)
+                {
+                    foreach (Socket cl in gr.SocketGroupList)
+                    { 
+                        
+                            SendData(cl, Serialize(memberinfo));
+                            test++;
+                        
+                    }
+                    break;
+                }
+                break;
+            }
+        }
+        private void btnSend_Click(object sender, EventArgs e)
+        {
+
+            MessageModel member;
+            member = new MessageModel(0, 0, null, "Server");
+            member.Message = txtMessage.Text;
+            AddMessage(member.Name + ": " + member.Message);
+            if (member.Message != String.Empty)
+                foreach (Socket item in clientList)
+                {
+                  SendData(item, Serialize(member));
+                   
+
+                txtMessage.Clear();
+            }
+
+        }
+      
+
     }
 }

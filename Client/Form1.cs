@@ -46,6 +46,7 @@ namespace Client
             Thread listen = new Thread(Receive);
             listen.IsBackground = true;
             listen.Start();
+            
         }
         void Receive()
         {
@@ -57,8 +58,25 @@ namespace Client
 
                     Client.Receive(data);
                      memberinfo = Deserialize(data);
-                    string s = memberinfo.Name + " : " + memberinfo.Message;
-                    AddMessage(s);
+                    if (memberinfo.Message != null && memberinfo.Name!=txtName.Text)
+                    {
+                        string s = memberinfo.Name + ": " + memberinfo.Message;
+                        AddMessage(s);
+                    }
+                    if (memberinfo.Audio_ID != null && memberinfo.Name != txtName.Text)
+                    {
+                        AudioDbContext db = new AudioDbContext();
+                        var query = from m in db.Audios
+                                    where memberinfo.Audio_ID == m.ID.ToString()
+                                    select m;
+                        foreach (var audiodata in query)
+                        {
+                            data = TrimEnd(audiodata.AudioData);
+                            AudioPlayer audioPlayer = new AudioPlayer();
+                            audioPlayer.PlayAudio(data);
+                        }
+
+                    }
                 }
             }
             catch
@@ -107,6 +125,7 @@ namespace Client
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
+            MessageModel member = new MessageModel(int.Parse(txtID.Text), int.Parse(txtGroupID.Text), null, txtName.Text);
             if (txtName.Text == string.Empty || txtID.Text == string.Empty || txtGroupID.Text == string.Empty)
             {
                 MessageBox.Show("Vui lòng điền đủ thông tin!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -114,6 +133,8 @@ namespace Client
             }
             CheckForIllegalCrossThreadCalls = false;
             Connect();
+
+            Client.Send(Serialize(member));
         }
 
         private void btnSend_Click(object sender, EventArgs e)
@@ -155,10 +176,18 @@ namespace Client
             }
         }
 
+        public byte[] TrimEnd(byte[] array)
+        {
+            int lastIndex = Array.FindLastIndex(array, b => b != 0);
 
+            Array.Resize(ref array, lastIndex + 1);
+
+            return array;
+        }
         private void Form1_Load(object sender, EventArgs e)
         {
 
         }
+        
     }
 }

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace Models
 {
     public class MessageModel
-    {        
+    {
         //Day la property 
-        public int ID { get; set; }    
+        public int ID { get; set; }
         public int Group_ID { get; set; }
         public string Audio_ID { get; set; }
         public string Name { get; set; }
@@ -22,5 +22,6 @@ namespace Models
             Audio_ID = audio_ID_;
             Name = name_;
         }
+       
     }
 }
