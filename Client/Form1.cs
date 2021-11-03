@@ -61,12 +61,13 @@ namespace Client
                     if (!string.IsNullOrEmpty(memberinfo.Message))
                     {
                         string s = memberinfo.Name + ": " + memberinfo.Message;
-                        AddMessage(s);
+                        AddMessage(lsvMessage, s, Color.FromArgb(136, 224, 239), Color.White);
+                        AddMessage(listMyMessage, "", Color.Transparent, Color.Transparent);
                     }
                     if (!string.IsNullOrEmpty(memberinfo.Audio_ID))
                     {
-                        AddVoice(memberinfo);
-
+                        AddVoice(lsvMessage, memberinfo, Color.FromArgb(136, 224, 239), Color.White);
+                        AddVoice(listMyMessage, null, Color.Transparent, Color.Transparent);                      
                     }
                 }
             }
@@ -103,25 +104,43 @@ namespace Client
             return JsonConvert.DeserializeObject<MessageModel>(stringObj);
 
         }
-        void AddVoice(MessageModel message)
-        {            
-            lsvMessage.Items.Add(new ListViewItem()
+        void AddVoice(ListView listView, MessageModel message, Color backColor, Color textColor)
+        {       
+            if(message != null)
             {
-                Text = $"[>Voice: {message.Name}<]",
-                Tag = message.Audio_ID,
-                ImageIndex = 0,                
-                BackColor = Color.LimeGreen,
-                ForeColor = Color.White
-            });
+                listView.Items.Add(new ListViewItem()
+                {
+                    Text = $"[>Voice: {message.Name}<]",
+                    Tag = message.Audio_ID,
+                    ImageIndex = 0,
+                    BackColor = backColor,
+                    ForeColor = textColor
+                });
+            }
+            else
+            {
+                listView.Items.Add(new ListViewItem(""));
+            }
         }
-        void AddMessage(String s)
+        void AddMessage(ListView messages, String s, Color backColor, Color textColor)
         {
-            lsvMessage.Items.Add(new ListViewItem()
+            if (!string.IsNullOrEmpty(s))
             {
-                Text = s,
-                ImageIndex = 1
-            }); ;
-            txtMessage.Clear();
+                messages.Items.Add(new ListViewItem()
+                {
+                    Text = s,
+                    ImageIndex = 1,
+                    BackColor = backColor,
+                    ForeColor = textColor                    
+                });                
+            }
+            else
+            {
+                messages.Items.Add(new ListViewItem()
+                {
+                    Text = ""
+                });
+            }
         }
 
         private void btnConnect_Click(object sender, EventArgs e)
@@ -140,11 +159,13 @@ namespace Client
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            
-                  Send();
-                AddMessage(txtName.Text+": "+txtMessage.Text);
-
-            
+            if (!string.IsNullOrEmpty(txtMessage.Text))
+            {
+                Send();
+                AddMessage(listMyMessage, txtName.Text + ": " + txtMessage.Text, Color.FromArgb(247, 164, 64), Color.White);
+                AddMessage(lsvMessage, "", Color.Transparent, Color.Transparent);
+                txtMessage.Clear();
+            }
         }
 
         private void btnvoice_Click(object sender, EventArgs e)
@@ -169,7 +190,8 @@ namespace Client
                     member.Audio_ID = Audioitem.ID.ToString();
                     
                 }
-                AddVoice(member);
+                AddVoice(listMyMessage, member, Color.FromArgb(247, 164, 64), Color.White);
+                AddVoice(lsvMessage ,null, Color.Transparent, Color.Transparent);
                 Client.Send(Serialize(member));
             }
             else
@@ -194,9 +216,10 @@ namespace Client
 
         private void lsvMessage_Click(object sender, EventArgs e)
         {
-            if(lsvMessage.SelectedItems.Count > 0)
+            ListView listView = (ListView)sender;
+            if(listView.SelectedItems.Count > 0)
             {
-                string voiceId = lsvMessage.SelectedItems[0].Tag.ToString();
+                string voiceId = listView.SelectedItems[0].Tag?.ToString();
                 if (!string.IsNullOrEmpty(voiceId))
                 {
                     using(AudioDbContext db = new AudioDbContext())

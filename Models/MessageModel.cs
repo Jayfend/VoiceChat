@@ -22,6 +22,9 @@ namespace Models
             Audio_ID = audio_ID_;
             Name = name_;
         }
-       
+        public MessageModel()
+        {
+
+        }
     }
 }

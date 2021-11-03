@@ -38,11 +38,14 @@ namespace Client
             this.txtID = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.lsvMessage = new System.Windows.Forms.ListView();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.txtMessage = new System.Windows.Forms.TextBox();
             this.btnSend = new System.Windows.Forms.Button();
             this.btnvoice = new System.Windows.Forms.Button();
             this.btnConnect = new System.Windows.Forms.Button();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.listMyMessage = new System.Windows.Forms.ListView();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtName
@@ -110,18 +113,26 @@ namespace Client
             // 
             // lsvMessage
             // 
-            this.lsvMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lsvMessage.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lsvMessage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lsvMessage.HideSelection = false;
-            this.lsvMessage.Location = new System.Drawing.Point(44, 139);
+            this.lsvMessage.Location = new System.Drawing.Point(4, 5);
             this.lsvMessage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.lsvMessage.MultiSelect = false;
             this.lsvMessage.Name = "lsvMessage";
-            this.lsvMessage.Size = new System.Drawing.Size(600, 400);
+            this.lsvMessage.Size = new System.Drawing.Size(322, 377);
             this.lsvMessage.SmallImageList = this.imageList1;
             this.lsvMessage.TabIndex = 6;
             this.lsvMessage.UseCompatibleStateImageBehavior = false;
             this.lsvMessage.View = System.Windows.Forms.View.List;
             this.lsvMessage.Click += new System.EventHandler(this.lsvMessage_Click);
+            // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "icons8_play_64px_1.png");
+            this.imageList1.Images.SetKeyName(1, "icons8_person_64px.png");
             // 
             // txtMessage
             // 
@@ -174,12 +185,38 @@ namespace Client
             this.btnConnect.UseVisualStyleBackColor = false;
             this.btnConnect.Click += new System.EventHandler(this.btnConnect_Click);
             // 
-            // imageList1
+            // listMyMessage
             // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "icons8_play_64px_1.png");
-            this.imageList1.Images.SetKeyName(1, "icons8_person_64px.png");
+            this.listMyMessage.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listMyMessage.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listMyMessage.HideSelection = false;
+            this.listMyMessage.Location = new System.Drawing.Point(334, 5);
+            this.listMyMessage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.listMyMessage.MultiSelect = false;
+            this.listMyMessage.Name = "listMyMessage";
+            this.listMyMessage.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.listMyMessage.RightToLeftLayout = true;
+            this.listMyMessage.Size = new System.Drawing.Size(322, 377);
+            this.listMyMessage.SmallImageList = this.imageList1;
+            this.listMyMessage.TabIndex = 11;
+            this.listMyMessage.UseCompatibleStateImageBehavior = false;
+            this.listMyMessage.View = System.Windows.Forms.View.List;
+            this.listMyMessage.Click += new System.EventHandler(this.lsvMessage_Click);
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.BackColor = System.Drawing.Color.White;
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.lsvMessage, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.listMyMessage, 1, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(12, 140);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(660, 387);
+            this.tableLayoutPanel1.TabIndex = 12;
             // 
             // Form1
             // 
@@ -187,11 +224,11 @@ namespace Client
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PowderBlue;
             this.ClientSize = new System.Drawing.Size(684, 641);
+            this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.btnConnect);
             this.Controls.Add(this.btnvoice);
             this.Controls.Add(this.btnSend);
             this.Controls.Add(this.txtMessage);
-            this.Controls.Add(this.lsvMessage);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtID);
             this.Controls.Add(this.txtGroupID);
@@ -204,6 +241,7 @@ namespace Client
             this.Text = "Client";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -223,6 +261,8 @@ namespace Client
         private System.Windows.Forms.Button btnvoice;
         private System.Windows.Forms.Button btnConnect;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.ListView listMyMessage;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
     }
 }
 

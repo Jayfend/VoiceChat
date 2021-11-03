@@ -100,6 +100,14 @@ namespace Server
                                 Name = memberinfo.Name,
                                 Socket = client
                             });
+
+                            MessageModel welcomeMessage = new MessageModel
+                            {
+                                Group_ID = memberinfo.Group_ID,
+                                Message = $"{memberinfo.Name} joined group!",
+                                Name = $"Group {memberinfo.Group_ID}"                                
+                            };
+                            GroupSend(gr, welcomeMessage);
                         }
                     }
                     else
@@ -118,6 +126,13 @@ namespace Server
                             }
                         };                        
                         Groups.Add(gr);
+                        MessageModel welcomeMessage = new MessageModel
+                        {
+                            Group_ID = memberinfo.Group_ID,
+                            Message = $"Group {memberinfo.Group_ID} created!",
+                            Name = $"Group {memberinfo.Group_ID}"
+                        };
+                        GroupSend(gr, welcomeMessage);
                     }
 
                     if (memberinfo.Message != null)
@@ -125,7 +140,7 @@ namespace Server
                         string s = memberinfo.Name + ": " + memberinfo.Message;
                         AddMessage(s);
                     }
-                    GroupSend(gr);
+                    GroupSend(gr, memberinfo);
                     
                     /*if (memberinfo.Audio_ID != null)
                     { 
@@ -203,13 +218,13 @@ namespace Server
 
             return array;
         }
-        public void GroupSend(Group gr)
+        public void GroupSend(Group gr, MessageModel message)
         {
             foreach(Member member in gr.SocketGroupList)
             {
-                if(member.Id != memberinfo.ID)
+                if(member.Id != message.ID)
                 {
-                    SendData(member.Socket, Serialize(memberinfo));
+                    SendData(member.Socket, Serialize(message));
                 }
             }
         }
