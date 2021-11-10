@@ -13,6 +13,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Models;
+using Models.Functions;
 using Newtonsoft.Json;
 
 namespace Server
@@ -57,7 +58,7 @@ namespace Server
                         //byte[] data = new byte[1024 * 5000];
                         //client.Receive(data);
                         //memberinfo = Deserialize(data);
-                        //GroupCreator(client,memberinfo);
+                        //GroupCreator(client,memberinfo);                        
 
                         Thread receive = new Thread(Receive);
                         receive.IsBackground = true;
@@ -88,7 +89,7 @@ namespace Server
                     byte[] data = new byte[1024 * 5000];                    
                     client.Receive(data);
                     
-                    memberinfo = Deserialize(data);                    
+                    memberinfo = Serializer.Deserialize(data);                    
                     Group gr = Groups.FirstOrDefault(g => g.ID == memberinfo.Group_ID);
                     if(gr != null)
                     {
@@ -161,32 +162,10 @@ namespace Server
                 
             }
             catch (Exception ex)
-            {
-                clientList.Remove(client);
-                client.Close();
+            {                
             }
             
-        }
-        byte[] Serialize(object obj) // phân mảnh
-        {
-            
-            var objToString = JsonConvert.SerializeObject(obj);
-           
-            MemoryStream stream = new MemoryStream();
-            BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(stream, objToString);
-            return stream.ToArray();
-        }
-        MessageModel Deserialize(byte[] data) // gộp mảnh
-        {
-            MemoryStream stream = new MemoryStream(data);
-            BinaryFormatter formatter = new BinaryFormatter();
-            var stringObj =(string)formatter.Deserialize(stream);
-            // make sure you use same type what you use chose during conversation
-
-            return JsonConvert.DeserializeObject<MessageModel>(stringObj);
-
-        }
+        }        
 
         void AddMessage(String s)
         {
@@ -220,13 +199,23 @@ namespace Server
         }
         public void GroupSend(Group gr, MessageModel message)
         {
+            List<int> idToRemove = new List<int>();
             foreach(Member member in gr.SocketGroupList)
             {
-                if(member.Id != message.ID)
+                if (member.Socket.Connected)
                 {
-                    SendData(member.Socket, Serialize(message));
+                    if (member.Id != message.ID)
+                    {
+                        SendData(member.Socket, Serializer.Serialize(message));
+                    }
+                }
+                else
+                {
+                    idToRemove.Add(member.Id);
                 }
             }
+
+            gr.SocketGroupList = gr.SocketGroupList.Where(g => idToRemove.Contains(g.Id) == false).ToList();
         }
         private void btnSend_Click(object sender, EventArgs e)
         {
@@ -238,7 +227,7 @@ namespace Server
             if (member.Message != String.Empty)
                 foreach (Socket item in clientList)
                 {
-                  SendData(item, Serialize(member));
+                  SendData(item, Serializer.Serialize(member));
                    
 
                 txtMessage.Clear();

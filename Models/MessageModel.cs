@@ -14,6 +14,7 @@ namespace Models
         public string Audio_ID { get; set; }
         public string Name { get; set; }
         public string Message { get; set; }
+        public MessageType MessageType { get; set; }
         //Day la property 
         public MessageModel(int ID_, int group_ID_, string audio_ID_, string name_)
         {
@@ -21,10 +22,25 @@ namespace Models
             Group_ID = group_ID_;
             Audio_ID = audio_ID_;
             Name = name_;
+            MessageType = MessageType.Text;
         }
         public MessageModel()
         {
-
+            MessageType = MessageType.Text;
         }
+    }
+
+    public enum MessageType
+    {
+        Text = 0,
+        Call = 1,
+        CallAccepted = 2
+    }
+
+    public enum CallStatus
+    {
+        Pending = 0,
+        Calling = 1,
+        Ended = 2
     }
 }

@@ -14,6 +14,10 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using System.Windows.Forms;
 using Models;
+using NAudio.Wave;
+using NAudio.Utils;
+using Models.Functions;
+using System.Diagnostics;
 
 namespace Client
 {
@@ -29,6 +33,10 @@ namespace Client
         Socket Client;
         MessageModel memberinfo;
         Thread listenThread;
+        Stopwatch stopwatch = new Stopwatch();
+        CallStatus CallStatus;
+        CallHandler callHandler;
+        Thread callThread;
         void Connect()//tạo kết nối
         {
             
@@ -43,10 +51,10 @@ namespace Client
                 MessageBox.Show("Không thể kết nối!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
             listenThread = new Thread(Receive);
             listenThread.IsBackground = true;
             listenThread.Start();
-            
         }
         void Receive()
         {
@@ -57,18 +65,60 @@ namespace Client
                     byte[] data = new byte[1024 * 5000];
 
                     Client.Receive(data);
-                     memberinfo = Deserialize(data);
-                    if (!string.IsNullOrEmpty(memberinfo.Message))
+                     memberinfo = Serializer.Deserialize(data);
+                    switch (memberinfo.MessageType)
                     {
-                        string s = memberinfo.Name + ": " + memberinfo.Message;
-                        AddMessage(lsvMessage, s, Color.FromArgb(136, 224, 239), Color.White);
-                        AddMessage(listMyMessage, "", Color.Transparent, Color.Transparent);
+                        case MessageType.Text:
+                            if (!string.IsNullOrEmpty(memberinfo.Message))
+                            {
+                                string s = memberinfo.Name + ": " + memberinfo.Message;
+                                AddMessage(lsvMessage, s, Color.FromArgb(136, 224, 239), Color.White);
+                                AddMessage(listMyMessage, "", Color.Transparent, Color.Transparent);
+                            }
+                            if (!string.IsNullOrEmpty(memberinfo.Audio_ID))
+                            {
+                                AddVoice(lsvMessage, memberinfo, Color.FromArgb(136, 224, 239), Color.White);
+                                AddVoice(listMyMessage, null, Color.Transparent, Color.Transparent);
+                            }
+                            break;
+                        case MessageType.Call:
+                            if(CallStatus != CallStatus.Calling)
+                            {
+                                CallRequest callreq = new CallRequest(memberinfo.Name);
+                                var dialogResult = callreq.ShowDialog();
+
+                                if (dialogResult == DialogResult.Yes)
+                                {
+                                    MessageModel member;
+                                    member = new MessageModel
+                                    {
+                                        Group_ID = int.Parse(txtGroupID.Text),
+                                        ID = int.Parse(txtID.Text),
+                                        MessageType = MessageType.CallAccepted,
+                                        Name = txtName.Text
+                                    };
+                                    Client.Send(Serializer.Serialize(member));
+                                    this.BeginInvoke(new MethodInvoker(delegate
+                                    {
+                                        StartCall(CallStatus.Calling);
+                                    }));
+
+                                }
+                            }
+                            break;
+
+
+                        case MessageType.CallAccepted:
+                            if(CallStatus == CallStatus.Pending)
+                            {
+                                this.BeginInvoke(new MethodInvoker(delegate
+                                {
+                                    StartCall(CallStatus.Calling);
+                                }));                                
+                            }
+                            break;
                     }
-                    if (!string.IsNullOrEmpty(memberinfo.Audio_ID))
-                    {
-                        AddVoice(lsvMessage, memberinfo, Color.FromArgb(136, 224, 239), Color.White);
-                        AddVoice(listMyMessage, null, Color.Transparent, Color.Transparent);                      
-                    }
+
                 }
             }
             catch
@@ -82,28 +132,23 @@ namespace Client
             member = new MessageModel(int.Parse(txtID.Text), int.Parse(txtGroupID.Text), null, txtName.Text);
             member.Message = txtMessage.Text;
             if (member.Message != String.Empty)
-                Client.Send(Serialize(member));
+                Client.Send(Serializer.Serialize(member));
         }
-        byte[] Serialize(object obj) // phân mảnh
+        void RequestCall()
         {
+            CallStatus = CallStatus.Pending;
 
-            var objToString = JsonConvert.SerializeObject(obj);
-
-            MemoryStream stream = new MemoryStream();
-            BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(stream, objToString);
-            return stream.ToArray();
-        }
-        MessageModel Deserialize(byte[] data) // gộp mảnh
-        {
-            MemoryStream stream = new MemoryStream(data);
-            BinaryFormatter formatter = new BinaryFormatter();
-            var stringObj = (string)formatter.Deserialize(stream);
-            // make sure you use same type what you use chose during conversation
-
-            return JsonConvert.DeserializeObject<MessageModel>(stringObj);
-
-        }
+            MessageModel member;
+            member = new MessageModel
+            {
+                Group_ID = int.Parse(txtGroupID.Text),
+                ID = int.Parse(txtID.Text),
+                MessageType = MessageType.Call,
+                Name = txtName.Text                
+            };
+            Client.Send(Serializer.Serialize(member));
+        }        
+        
         void AddVoice(ListView listView, MessageModel message, Color backColor, Color textColor)
         {       
             if(message != null)
@@ -154,7 +199,7 @@ namespace Client
             CheckForIllegalCrossThreadCalls = false;
             Connect();
 
-            Client.Send(Serialize(member));
+            Client.Send(Serializer.Serialize(member));
         }
 
         private void btnSend_Click(object sender, EventArgs e)
@@ -197,7 +242,7 @@ namespace Client
                 }
                 AddVoice(listMyMessage, member, Color.FromArgb(247, 164, 64), Color.White);
                 AddVoice(lsvMessage ,null, Color.Transparent, Color.Transparent);
-                Client.Send(Serialize(member));
+                Client.Send(Serializer.Serialize(member));
             }
             else
             {
@@ -246,13 +291,77 @@ namespace Client
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            listenThread.Abort();
+            if(listenThread != null)
+                listenThread.Abort();
         }
 
         private void txtMessage_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
                 SendMessage();
+        }
+
+        private void btnCall_Click(object sender, EventArgs e)
+        {
+            RequestCall();
+            StartCall(CallStatus.Pending);
+        }
+        void StartCall(CallStatus callStatus)
+        {
+            CallStatus = callStatus;
+            btnCall.Enabled = false;
+            btnEndCall.Visible = true;
+            lbCallTime.Visible = true;
+            stopwatch.Restart();
+            stopwatch.Start();
+            timerCall.Start();
+
+            if(callStatus == CallStatus.Calling)
+            {
+                callHandler = new CallHandler();
+                callHandler.connectionFailHandler = CallConnectFailed;
+                callHandler.Start();
+                //callThread = new Thread(callHandler.Start);
+                //callThread.IsBackground = true;                                
+                //callThread.Start();
+            }            
+        }
+
+        void EndCall()
+        {
+            btnCall.Enabled = true;
+            TimeSpan timeSpan = TimeSpan.FromSeconds(stopwatch.Elapsed.TotalSeconds);
+            listMyMessage.Items.Add($"Call ended. Time total: {timeSpan.Hours}:{timeSpan.Minutes}:{timeSpan.Seconds}");
+            timerCall.Stop();
+            stopwatch.Stop();
+            lbCallTime.Visible = false;
+            lbCallTime.Text = "0:0:0";
+            btnEndCall.Visible = false;
+            CallStatus = CallStatus.Ended;
+
+            if(callHandler != null)
+            {
+                callHandler.Dispose();
+                callHandler = null;
+            }
+        }
+
+        private void CallConnectFailed()
+        {
+            listMyMessage.Items.Add($"Could not connect to the call server!");
+            EndCall();
+        }
+
+        private void timerCall_Tick(object sender, EventArgs e)
+        {
+            //Hien thi thoi gian ghi audio
+            TimeSpan timeSpan = TimeSpan.FromSeconds(stopwatch.Elapsed.TotalSeconds);
+            lbCallTime.Text = $"{CallStatus.ToString()} {timeSpan.Hours}:{timeSpan.Minutes}:{timeSpan.Seconds}";
+        }
+
+        private void btnEndCall_Click(object sender, EventArgs e)
+        {
+            EndCall();
         }
     }
 }

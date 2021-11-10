@@ -40,18 +40,22 @@ namespace Client
             this.lsvMessage = new System.Windows.Forms.ListView();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.txtMessage = new System.Windows.Forms.TextBox();
-            this.btnSend = new System.Windows.Forms.Button();
-            this.btnvoice = new System.Windows.Forms.Button();
             this.btnConnect = new System.Windows.Forms.Button();
             this.listMyMessage = new System.Windows.Forms.ListView();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.lbCallTime = new System.Windows.Forms.Label();
+            this.timerCall = new System.Windows.Forms.Timer(this.components);
+            this.btnEndCall = new System.Windows.Forms.Button();
+            this.btnCall = new System.Windows.Forms.Button();
+            this.btnvoice = new System.Windows.Forms.Button();
+            this.btnSend = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // txtName
             // 
             this.txtName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtName.Location = new System.Drawing.Point(191, 30);
+            this.txtName.Location = new System.Drawing.Point(191, 13);
             this.txtName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtName.Multiline = true;
             this.txtName.Name = "txtName";
@@ -62,7 +66,7 @@ namespace Client
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(83, 35);
+            this.label1.Location = new System.Drawing.Point(83, 18);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(105, 23);
@@ -73,7 +77,7 @@ namespace Client
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(92, 83);
+            this.label2.Location = new System.Drawing.Point(92, 66);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(96, 23);
@@ -83,7 +87,7 @@ namespace Client
             // txtGroupID
             // 
             this.txtGroupID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtGroupID.Location = new System.Drawing.Point(191, 78);
+            this.txtGroupID.Location = new System.Drawing.Point(191, 61);
             this.txtGroupID.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtGroupID.Multiline = true;
             this.txtGroupID.Name = "txtGroupID";
@@ -93,7 +97,7 @@ namespace Client
             // txtID
             // 
             this.txtID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtID.Location = new System.Drawing.Point(348, 78);
+            this.txtID.Location = new System.Drawing.Point(348, 61);
             this.txtID.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtID.Multiline = true;
             this.txtID.Name = "txtID";
@@ -104,7 +108,7 @@ namespace Client
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(303, 83);
+            this.label3.Location = new System.Drawing.Point(303, 66);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(37, 23);
@@ -137,7 +141,7 @@ namespace Client
             // txtMessage
             // 
             this.txtMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtMessage.Location = new System.Drawing.Point(87, 564);
+            this.txtMessage.Location = new System.Drawing.Point(12, 546);
             this.txtMessage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtMessage.Multiline = true;
             this.txtMessage.Name = "txtMessage";
@@ -145,39 +149,11 @@ namespace Client
             this.txtMessage.TabIndex = 7;
             this.txtMessage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMessage_KeyPress);
             // 
-            // btnSend
-            // 
-            this.btnSend.BackgroundImage = global::Client.Properties.Resources.Send;
-            this.btnSend.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnSend.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.btnSend.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSend.Location = new System.Drawing.Point(495, 564);
-            this.btnSend.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(50, 40);
-            this.btnSend.TabIndex = 8;
-            this.btnSend.UseVisualStyleBackColor = true;
-            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
-            // 
-            // btnvoice
-            // 
-            this.btnvoice.BackColor = System.Drawing.Color.Transparent;
-            this.btnvoice.BackgroundImage = global::Client.Properties.Resources.Mic;
-            this.btnvoice.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnvoice.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnvoice.Location = new System.Drawing.Point(557, 564);
-            this.btnvoice.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.btnvoice.Name = "btnvoice";
-            this.btnvoice.Size = new System.Drawing.Size(40, 40);
-            this.btnvoice.TabIndex = 9;
-            this.btnvoice.UseVisualStyleBackColor = false;
-            this.btnvoice.Click += new System.EventHandler(this.btnvoice_Click);
-            // 
             // btnConnect
             // 
             this.btnConnect.BackColor = System.Drawing.Color.Transparent;
             this.btnConnect.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConnect.Location = new System.Drawing.Point(569, 30);
+            this.btnConnect.Location = new System.Drawing.Point(569, 13);
             this.btnConnect.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(75, 50);
@@ -219,12 +195,93 @@ namespace Client
             this.tableLayoutPanel1.Size = new System.Drawing.Size(660, 387);
             this.tableLayoutPanel1.TabIndex = 12;
             // 
+            // lbCallTime
+            // 
+            this.lbCallTime.AutoSize = true;
+            this.lbCallTime.Location = new System.Drawing.Point(545, 118);
+            this.lbCallTime.Name = "lbCallTime";
+            this.lbCallTime.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.lbCallTime.Size = new System.Drawing.Size(91, 19);
+            this.lbCallTime.TabIndex = 14;
+            this.lbCallTime.Text = "Pending 0:0:0";
+            this.lbCallTime.Visible = false;
+            // 
+            // timerCall
+            // 
+            this.timerCall.Interval = 1000;
+            this.timerCall.Tick += new System.EventHandler(this.timerCall_Tick);
+            // 
+            // btnEndCall
+            // 
+            this.btnEndCall.BackColor = System.Drawing.Color.Red;
+            this.btnEndCall.BackgroundImage = global::Client.Properties.Resources.icons8_delete_32px1;
+            this.btnEndCall.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnEndCall.FlatAppearance.BorderColor = System.Drawing.Color.PowderBlue;
+            this.btnEndCall.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnEndCall.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEndCall.Location = new System.Drawing.Point(643, 108);
+            this.btnEndCall.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnEndCall.Name = "btnEndCall";
+            this.btnEndCall.Size = new System.Drawing.Size(29, 29);
+            this.btnEndCall.TabIndex = 15;
+            this.btnEndCall.UseVisualStyleBackColor = false;
+            this.btnEndCall.Visible = false;
+            this.btnEndCall.Click += new System.EventHandler(this.btnEndCall_Click);
+            // 
+            // btnCall
+            // 
+            this.btnCall.BackColor = System.Drawing.Color.Transparent;
+            this.btnCall.BackgroundImage = global::Client.Properties.Resources.icons8_outgoing_call_48px;
+            this.btnCall.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnCall.FlatAppearance.BorderColor = System.Drawing.Color.PowderBlue;
+            this.btnCall.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnCall.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCall.Location = new System.Drawing.Point(569, 546);
+            this.btnCall.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnCall.Name = "btnCall";
+            this.btnCall.Size = new System.Drawing.Size(40, 40);
+            this.btnCall.TabIndex = 13;
+            this.btnCall.UseVisualStyleBackColor = false;
+            this.btnCall.Click += new System.EventHandler(this.btnCall_Click);
+            // 
+            // btnvoice
+            // 
+            this.btnvoice.BackColor = System.Drawing.Color.Transparent;
+            this.btnvoice.BackgroundImage = global::Client.Properties.Resources.Mic;
+            this.btnvoice.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnvoice.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnvoice.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnvoice.Location = new System.Drawing.Point(500, 546);
+            this.btnvoice.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnvoice.Name = "btnvoice";
+            this.btnvoice.Size = new System.Drawing.Size(40, 40);
+            this.btnvoice.TabIndex = 9;
+            this.btnvoice.UseVisualStyleBackColor = false;
+            this.btnvoice.Click += new System.EventHandler(this.btnvoice_Click);
+            // 
+            // btnSend
+            // 
+            this.btnSend.BackgroundImage = global::Client.Properties.Resources.Send;
+            this.btnSend.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSend.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnSend.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSend.Location = new System.Drawing.Point(420, 546);
+            this.btnSend.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.btnSend.Name = "btnSend";
+            this.btnSend.Size = new System.Drawing.Size(50, 40);
+            this.btnSend.TabIndex = 8;
+            this.btnSend.UseVisualStyleBackColor = true;
+            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PowderBlue;
             this.ClientSize = new System.Drawing.Size(684, 641);
+            this.Controls.Add(this.btnEndCall);
+            this.Controls.Add(this.lbCallTime);
+            this.Controls.Add(this.btnCall);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.btnConnect);
             this.Controls.Add(this.btnvoice);
@@ -264,6 +321,10 @@ namespace Client
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.ListView listMyMessage;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Button btnCall;
+        private System.Windows.Forms.Label lbCallTime;
+        private System.Windows.Forms.Timer timerCall;
+        private System.Windows.Forms.Button btnEndCall;
     }
 }
 
