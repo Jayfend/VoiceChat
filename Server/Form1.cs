@@ -54,12 +54,7 @@ namespace Server
                     {
                         server.Listen(100);
                         Socket client = server.Accept();
-                        clientList.Add(client);
-                        //byte[] data = new byte[1024 * 5000];
-                        //client.Receive(data);
-                        //memberinfo = Deserialize(data);
-                        //GroupCreator(client,memberinfo);                        
-
+                        clientList.Add(client);                   
                         Thread receive = new Thread(Receive);
                         receive.IsBackground = true;
                         receive.Start(client);
@@ -82,14 +77,24 @@ namespace Server
             
             Socket client = obj as Socket;
             try
-
             { 
                 while (true)
                 {
                     byte[] data = new byte[1024 * 5000];                    
                     client.Receive(data);
-                    
-                    memberinfo = Serializer.Deserialize(data);                    
+                    memberinfo = Serializer.Deserialize(data);
+                    if (memberinfo.VoiceData != null)
+                    {
+                        using (var db = new AudioDbContext())
+                        {
+                            var Audioitem = new Audio() { AudioData = memberinfo.VoiceData };
+                            db.Audios.Add(Audioitem);
+                            db.SaveChanges();
+                            memberinfo.Audio_ID = Audioitem.ID.ToString();
+                            SendData(client, Serializer.Serialize(memberinfo));
+                        }
+                    }
+                 
                     Group gr = Groups.FirstOrDefault(g => g.ID == memberinfo.Group_ID);
                     if(gr != null)
                     {
@@ -142,21 +147,6 @@ namespace Server
                         AddMessage(s);
                     }
                     GroupSend(gr, memberinfo);
-                    
-                    /*if (memberinfo.Audio_ID != null)
-                    { 
-                        AudioDbContext db = new AudioDbContext();
-                        var query = from m in db.Audios
-                                    where memberinfo.Audio_ID == m.ID.ToString()
-                                    select m;
-                        foreach (var audiodata in query)
-                        {
-                            data = TrimEnd(audiodata.AudioData);
-                            AudioPlayer audioPlayer = new AudioPlayer();
-                            audioPlayer.PlayAudio(data);
-                        }
-
-                    }*/
 
                 }
                 
@@ -228,8 +218,6 @@ namespace Server
                 foreach (Socket item in clientList)
                 {
                   SendData(item, Serializer.Serialize(member));
-                   
-
                 txtMessage.Clear();
             }
 

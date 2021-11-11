@@ -12,6 +12,7 @@ namespace Models
         public int ID { get; set; }
         public int Group_ID { get; set; }
         public string Audio_ID { get; set; }
+        public byte[] VoiceData { get; set; }
         public string Name { get; set; }
         public string Message { get; set; }
         public MessageType MessageType { get; set; }
@@ -22,6 +23,7 @@ namespace Models
             Group_ID = group_ID_;
             Audio_ID = audio_ID_;
             Name = name_;
+            VoiceData = null;
             MessageType = MessageType.Text;
         }
         public MessageModel()

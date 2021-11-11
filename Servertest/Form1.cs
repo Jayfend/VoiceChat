@@ -100,7 +100,7 @@ namespace Servertest
 
                     Parallel.ForEach(networkStreams, netw =>
                     {
-                        if (netw.Key != count)
+                        if (netw.Key != count)//De khong bi trung voi nguoi gui
                         {
                             try
                             {
@@ -124,11 +124,7 @@ namespace Servertest
 
         }
 
-        void AddMessage(String s)
-        {
-            lsvMessage.Items.Add(new ListViewItem() { Text = s });
-            txtMessage.Clear();
-        }
+        
 
         private static void SendData(Socket s, byte[] data)
         {

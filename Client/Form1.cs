@@ -75,10 +75,15 @@ namespace Client
                                 AddMessage(lsvMessage, s, Color.FromArgb(136, 224, 239), Color.White);
                                 AddMessage(listMyMessage, "", Color.Transparent, Color.Transparent);
                             }
-                            if (!string.IsNullOrEmpty(memberinfo.Audio_ID))
+                            if (!string.IsNullOrEmpty(memberinfo.Audio_ID)&&memberinfo.ID!=int.Parse(txtID.Text))
                             {
                                 AddVoice(lsvMessage, memberinfo, Color.FromArgb(136, 224, 239), Color.White);
                                 AddVoice(listMyMessage, null, Color.Transparent, Color.Transparent);
+                            }
+                            if(!string.IsNullOrEmpty(memberinfo.Audio_ID)&&memberinfo.ID==int.Parse(txtID.Text))
+                            {
+                                AddVoice(listMyMessage, memberinfo, Color.FromArgb(247, 164, 64), Color.White);
+                                AddVoice(lsvMessage, null, Color.Transparent, Color.Transparent);
                             }
                             break;
                         case MessageType.Call:
@@ -230,18 +235,11 @@ namespace Client
                 MemoryStream stream = recorder.memoryStream;
                 byte[] voiceData = stream.ToArray();
 
-
+                
                 //Luu byte[] vao database
-                using ( var db = new AudioDbContext())
-                    {
-                    var Audioitem = new Audio() { AudioData = voiceData };
-                    db.Audios.Add(Audioitem);
-                    db.SaveChanges();
-                    member.Audio_ID = Audioitem.ID.ToString();
-                    
-                }
-                AddVoice(listMyMessage, member, Color.FromArgb(247, 164, 64), Color.White);
-                AddVoice(lsvMessage ,null, Color.Transparent, Color.Transparent);
+                member.VoiceData = voiceData;
+                //AddVoice(listMyMessage, member, Color.FromArgb(247, 164, 64), Color.White);
+                //AddVoice(lsvMessage ,null, Color.Transparent, Color.Transparent);
                 Client.Send(Serializer.Serialize(member));
             }
             else

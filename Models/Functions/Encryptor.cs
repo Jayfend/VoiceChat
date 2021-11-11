@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Models
+namespace Models.Functions
 {
-    public class Audio
-    {   public int ID { get; set; }
-        public byte[] AudioData { get; set; }
+   public class Encryptor
+    {
+        
     }
 }
