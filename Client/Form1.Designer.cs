@@ -55,7 +55,7 @@ namespace Client
             // txtName
             // 
             this.txtName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtName.Location = new System.Drawing.Point(191, 13);
+            this.txtName.Location = new System.Drawing.Point(121, 27);
             this.txtName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtName.Multiline = true;
             this.txtName.Name = "txtName";
@@ -66,7 +66,7 @@ namespace Client
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(83, 18);
+            this.label1.Location = new System.Drawing.Point(8, 32);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(105, 23);
@@ -77,7 +77,7 @@ namespace Client
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(92, 66);
+            this.label2.Location = new System.Drawing.Point(17, 80);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(96, 23);
@@ -87,7 +87,7 @@ namespace Client
             // txtGroupID
             // 
             this.txtGroupID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtGroupID.Location = new System.Drawing.Point(191, 61);
+            this.txtGroupID.Location = new System.Drawing.Point(121, 75);
             this.txtGroupID.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtGroupID.Multiline = true;
             this.txtGroupID.Name = "txtGroupID";
@@ -97,7 +97,7 @@ namespace Client
             // txtID
             // 
             this.txtID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtID.Location = new System.Drawing.Point(348, 61);
+            this.txtID.Location = new System.Drawing.Point(278, 75);
             this.txtID.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.txtID.Multiline = true;
             this.txtID.Name = "txtID";
@@ -108,7 +108,7 @@ namespace Client
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(303, 66);
+            this.label3.Location = new System.Drawing.Point(233, 80);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(37, 23);
@@ -153,7 +153,7 @@ namespace Client
             // 
             this.btnConnect.BackColor = System.Drawing.Color.Transparent;
             this.btnConnect.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConnect.Location = new System.Drawing.Point(569, 13);
+            this.btnConnect.Location = new System.Drawing.Point(399, 27);
             this.btnConnect.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnConnect.Name = "btnConnect";
             this.btnConnect.Size = new System.Drawing.Size(75, 50);
@@ -234,12 +234,14 @@ namespace Client
             this.btnCall.BackgroundImage = global::Client.Properties.Resources.icons8_outgoing_call_48px;
             this.btnCall.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnCall.FlatAppearance.BorderColor = System.Drawing.Color.PowderBlue;
-            this.btnCall.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnCall.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.btnCall.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+            this.btnCall.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCall.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCall.Location = new System.Drawing.Point(569, 546);
+            this.btnCall.Location = new System.Drawing.Point(627, 541);
             this.btnCall.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnCall.Name = "btnCall";
-            this.btnCall.Size = new System.Drawing.Size(40, 40);
+            this.btnCall.Size = new System.Drawing.Size(45, 45);
             this.btnCall.TabIndex = 13;
             this.btnCall.UseVisualStyleBackColor = false;
             this.btnCall.Click += new System.EventHandler(this.btnCall_Click);
@@ -249,12 +251,15 @@ namespace Client
             this.btnvoice.BackColor = System.Drawing.Color.Transparent;
             this.btnvoice.BackgroundImage = global::Client.Properties.Resources.Mic;
             this.btnvoice.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnvoice.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnvoice.FlatAppearance.BorderColor = System.Drawing.Color.PowderBlue;
+            this.btnvoice.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.btnvoice.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+            this.btnvoice.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnvoice.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnvoice.Location = new System.Drawing.Point(500, 546);
+            this.btnvoice.Location = new System.Drawing.Point(545, 541);
             this.btnvoice.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnvoice.Name = "btnvoice";
-            this.btnvoice.Size = new System.Drawing.Size(40, 40);
+            this.btnvoice.Size = new System.Drawing.Size(40, 45);
             this.btnvoice.TabIndex = 9;
             this.btnvoice.UseVisualStyleBackColor = false;
             this.btnvoice.Click += new System.EventHandler(this.btnvoice_Click);
@@ -263,9 +268,12 @@ namespace Client
             // 
             this.btnSend.BackgroundImage = global::Client.Properties.Resources.Send;
             this.btnSend.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnSend.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnSend.FlatAppearance.BorderColor = System.Drawing.Color.PowderBlue;
+            this.btnSend.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.btnSend.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+            this.btnSend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSend.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSend.Location = new System.Drawing.Point(420, 546);
+            this.btnSend.Location = new System.Drawing.Point(452, 546);
             this.btnSend.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(50, 40);
@@ -294,7 +302,9 @@ namespace Client
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtName);
             this.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Client";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);

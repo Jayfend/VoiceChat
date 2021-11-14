@@ -58,6 +58,10 @@ namespace Server
             // 
             this.btnSend.BackgroundImage = global::Server.Properties.Resources.Send;
             this.btnSend.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.btnSend.FlatAppearance.BorderColor = System.Drawing.Color.PowderBlue;
+            this.btnSend.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.btnSend.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+            this.btnSend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSend.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSend.Location = new System.Drawing.Point(551, 455);
             this.btnSend.Margin = new System.Windows.Forms.Padding(4);
@@ -77,7 +81,9 @@ namespace Server
             this.Controls.Add(this.txtMessage);
             this.Controls.Add(this.lsvMessage);
             this.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Server";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_Closed);

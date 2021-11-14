@@ -50,6 +50,8 @@ namespace Servertest
             this.BackColor = System.Drawing.Color.PowderBlue;
             this.ClientSize = new System.Drawing.Size(712, 464);
             this.Controls.Add(this.lsvMessage);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "ServerVoice";
             this.ResumeLayout(false);

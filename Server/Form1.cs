@@ -48,8 +48,6 @@ namespace Server
             {
                 try
                 {
-
-
                     while (true)
                     {
                         server.Listen(100);
@@ -69,12 +67,10 @@ namespace Server
 
             ListenThread.IsBackground = true;
             ListenThread.Start();
-
         }
         
         void Receive(Object obj)
-        {
-            
+        {  
             Socket client = obj as Socket;
             try
             { 
@@ -147,14 +143,13 @@ namespace Server
                         AddMessage(s);
                     }
                     GroupSend(gr, memberinfo);
-
                 }
                 
             }
             catch (Exception ex)
-            {                
+            {              
+                
             }
-            
         }        
 
         void AddMessage(String s)
@@ -176,7 +171,6 @@ namespace Server
                 total += sent;
                 dataleft -= sent;
             }
-
         }
 
         public byte[] TrimEnd(byte[] array)
@@ -209,7 +203,6 @@ namespace Server
         }
         private void btnSend_Click(object sender, EventArgs e)
         {
-
             MessageModel member;
             member = new MessageModel(0, 0, null, "Server");
             member.Message = txtMessage.Text;
@@ -217,12 +210,9 @@ namespace Server
             if (member.Message != String.Empty)
                 foreach (Socket item in clientList)
                 {
-                  SendData(item, Serializer.Serialize(member));
-                txtMessage.Clear();
-            }
-
+                    SendData(item, Serializer.Serialize(member));
+                    txtMessage.Clear();
+                }
         }
-      
-
     }
 }

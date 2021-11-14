@@ -26,9 +26,9 @@ namespace Client
         public Form1()
         {
             InitializeComponent();
-      
-            
+            btnCall.Enabled = btnSend.Enabled = btnvoice.Enabled = false;
         }
+
         IPEndPoint IP;
         Socket Client;
         MessageModel memberinfo;
@@ -37,9 +37,9 @@ namespace Client
         CallStatus CallStatus;
         CallHandler callHandler;
         Thread callThread;
+
         void Connect()//tạo kết nối
         {
-            
             IP = new IPEndPoint(IPAddress.Parse("127.0.0.1"),7749);
             Client = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.IP);
             try
@@ -55,6 +55,11 @@ namespace Client
             listenThread = new Thread(Receive);
             listenThread.IsBackground = true;
             listenThread.Start();
+
+            //Sau khi kết nối có thể chat
+            btnCall.Enabled = btnSend.Enabled = btnvoice.Enabled = true;
+            btnConnect.Enabled = false;
+            txtName.ReadOnly = txtGroupID.ReadOnly = txtID.ReadOnly = true;
         }
         void Receive()
         {
@@ -65,7 +70,7 @@ namespace Client
                     byte[] data = new byte[1024 * 5000];
 
                     Client.Receive(data);
-                     memberinfo = Serializer.Deserialize(data);
+                    memberinfo = Serializer.Deserialize(data);
                     switch (memberinfo.MessageType)
                     {
                         case MessageType.Text:
@@ -199,12 +204,18 @@ namespace Client
             if (txtName.Text == string.Empty || txtID.Text == string.Empty || txtGroupID.Text == string.Empty)
             {
                 MessageBox.Show("Vui lòng điền đủ thông tin!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-
             }
             CheckForIllegalCrossThreadCalls = false;
-            Connect();
 
-            Client.Send(Serializer.Serialize(member));
+            Connect();
+            try
+            {
+                Client.Send(Serializer.Serialize(member));
+            }
+            catch(SocketException)
+            {
+                return;
+            }
         }
 
         private void btnSend_Click(object sender, EventArgs e)

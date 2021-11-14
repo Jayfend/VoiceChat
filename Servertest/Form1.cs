@@ -91,7 +91,6 @@ namespace Servertest
             //o.Volume = 1;            
             //o.Play();
             try
-
             {
                 while (true)
                 {
@@ -112,10 +111,8 @@ namespace Servertest
                                 networkStreams.Remove(netw.Key);
                             }
                         }
-                            
                     });                    
                 }
-
             }
             catch (Exception ex)
             {
@@ -164,7 +161,5 @@ namespace Servertest
         {
 
         }
-
-
     }
 }
