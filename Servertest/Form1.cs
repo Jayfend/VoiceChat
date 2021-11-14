@@ -80,21 +80,12 @@ namespace Servertest
             networkStreams.Add(count, networkStream);
 
             byte[] data = new byte[1024 * 5000];
-            //int sampleRate = 16000; // 16 kHz
-            //int channels = 1; // mono
-            //int bits = 16;
-
-            //var recordingFormat = WaveFormat.CreateIeeeFloatWaveFormat(48000, 2);
-            //var provider = new BufferedWaveProvider(recordingFormat);
-            //WaveOut o = new WaveOut();            
-            //o.Init(provider);
-            //o.Volume = 1;            
-            //o.Play();
+      
             try
             {
                 while (true)
                 {
-                    int recceived = networkStream.Read(data, 0, client.ReceiveBufferSize);
+                    int received = networkStream.Read(data, 0, client.ReceiveBufferSize);
                     //provider.AddSamples(data, 0, recceived);
 
                     Parallel.ForEach(networkStreams, netw =>
@@ -104,7 +95,7 @@ namespace Servertest
                             try
                             {
                                 if (netw.Value.CanWrite)
-                                    netw.Value.Write(data, 0, recceived);
+                                    netw.Value.Write(data, 0, received);
                             }
                             catch(Exception ex)
                             {
