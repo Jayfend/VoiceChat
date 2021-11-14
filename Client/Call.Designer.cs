@@ -38,7 +38,7 @@ namespace Client
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(87, 50);
+            this.label1.Location = new System.Drawing.Point(61, 53);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(116, 27);
             this.label1.TabIndex = 0;
@@ -48,7 +48,7 @@ namespace Client
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(78, 104);
+            this.label2.Location = new System.Drawing.Point(51, 106);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(139, 21);
             this.label2.TabIndex = 1;
@@ -59,8 +59,9 @@ namespace Client
             this.BtnDisconnect.BackColor = System.Drawing.Color.Red;
             this.BtnDisconnect.BackgroundImage = global::Client.Properties.Resources.icons8_delete_32px;
             this.BtnDisconnect.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.BtnDisconnect.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.BtnDisconnect.Location = new System.Drawing.Point(110, 161);
+            this.BtnDisconnect.FlatAppearance.BorderColor = System.Drawing.Color.Red;
+            this.BtnDisconnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.BtnDisconnect.Location = new System.Drawing.Point(90, 158);
             this.BtnDisconnect.Name = "BtnDisconnect";
             this.BtnDisconnect.Size = new System.Drawing.Size(64, 52);
             this.BtnDisconnect.TabIndex = 2;
@@ -72,10 +73,11 @@ namespace Client
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PowderBlue;
-            this.ClientSize = new System.Drawing.Size(301, 237);
+            this.ClientSize = new System.Drawing.Size(250, 250);
             this.Controls.Add(this.BtnDisconnect);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Call";
             this.Text = "Call";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Call_FormClosed);

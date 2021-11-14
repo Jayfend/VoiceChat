@@ -60,6 +60,8 @@ namespace Client
             btnCall.Enabled = btnSend.Enabled = btnvoice.Enabled = true;
             btnConnect.Enabled = false;
             txtName.ReadOnly = txtGroupID.ReadOnly = txtID.ReadOnly = true;
+            btnConnect.Text = "JOINED";
+            btnConnect.BackColor = Color.Red;
         }
         void Receive()
         {
@@ -200,12 +202,13 @@ namespace Client
 
         private void btnConnect_Click(object sender, EventArgs e)
         {
-            MessageModel member = new MessageModel(int.Parse(txtID.Text), int.Parse(txtGroupID.Text), null, txtName.Text);
             if (txtName.Text == string.Empty || txtID.Text == string.Empty || txtGroupID.Text == string.Empty)
             {
                 MessageBox.Show("Vui lòng điền đủ thông tin!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
             CheckForIllegalCrossThreadCalls = false;
+            MessageModel member = new MessageModel(int.Parse(txtID.Text), int.Parse(txtGroupID.Text), null, txtName.Text);
 
             Connect();
             try

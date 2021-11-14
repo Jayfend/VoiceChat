@@ -112,8 +112,6 @@ namespace Servertest
 
         }
 
-        
-
         private static void SendData(Socket s, byte[] data)
         {
             int total = 0;

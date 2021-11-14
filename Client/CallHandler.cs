@@ -102,10 +102,10 @@ namespace Client
                         int recceived = _networkStream.Read(data, 0, Client.ReceiveBufferSize);
                         provider.AddSamples(data, 0, recceived);
                     }
-
                 }
                 catch (Exception ex)
                 {
+
                 }
             }
             catch

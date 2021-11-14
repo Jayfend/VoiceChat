@@ -55,18 +55,18 @@ namespace Client
             // txtName
             // 
             this.txtName.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtName.Location = new System.Drawing.Point(121, 27);
+            this.txtName.Location = new System.Drawing.Point(192, 29);
             this.txtName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txtName.Multiline = true;
             this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(236, 28);
+            this.txtName.Size = new System.Drawing.Size(236, 26);
             this.txtName.TabIndex = 0;
+            this.txtName.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(8, 32);
+            this.label1.Location = new System.Drawing.Point(79, 32);
             this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(105, 23);
@@ -77,7 +77,7 @@ namespace Client
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(17, 80);
+            this.label2.Location = new System.Drawing.Point(88, 78);
             this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(96, 23);
@@ -87,28 +87,28 @@ namespace Client
             // txtGroupID
             // 
             this.txtGroupID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtGroupID.Location = new System.Drawing.Point(121, 75);
+            this.txtGroupID.Location = new System.Drawing.Point(192, 75);
             this.txtGroupID.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txtGroupID.Multiline = true;
             this.txtGroupID.Name = "txtGroupID";
-            this.txtGroupID.Size = new System.Drawing.Size(92, 28);
+            this.txtGroupID.Size = new System.Drawing.Size(80, 26);
             this.txtGroupID.TabIndex = 3;
+            this.txtGroupID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // txtID
             // 
             this.txtID.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtID.Location = new System.Drawing.Point(278, 75);
+            this.txtID.Location = new System.Drawing.Point(348, 75);
             this.txtID.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txtID.Multiline = true;
             this.txtID.Name = "txtID";
-            this.txtID.Size = new System.Drawing.Size(79, 28);
+            this.txtID.Size = new System.Drawing.Size(80, 26);
             this.txtID.TabIndex = 4;
+            this.txtID.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Times New Roman", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(233, 80);
+            this.label3.Location = new System.Drawing.Point(303, 78);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(37, 23);
@@ -141,22 +141,23 @@ namespace Client
             // txtMessage
             // 
             this.txtMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtMessage.Location = new System.Drawing.Point(12, 546);
+            this.txtMessage.Location = new System.Drawing.Point(12, 550);
             this.txtMessage.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.txtMessage.Multiline = true;
             this.txtMessage.Name = "txtMessage";
-            this.txtMessage.Size = new System.Drawing.Size(400, 40);
+            this.txtMessage.Size = new System.Drawing.Size(420, 26);
             this.txtMessage.TabIndex = 7;
             this.txtMessage.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtMessage_KeyPress);
             // 
             // btnConnect
             // 
-            this.btnConnect.BackColor = System.Drawing.Color.Transparent;
+            this.btnConnect.BackColor = System.Drawing.Color.Lime;
+            this.btnConnect.FlatAppearance.BorderColor = System.Drawing.Color.Lime;
+            this.btnConnect.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnConnect.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnConnect.Location = new System.Drawing.Point(399, 27);
+            this.btnConnect.Location = new System.Drawing.Point(505, 46);
             this.btnConnect.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnConnect.Name = "btnConnect";
-            this.btnConnect.Size = new System.Drawing.Size(75, 50);
+            this.btnConnect.Size = new System.Drawing.Size(100, 40);
             this.btnConnect.TabIndex = 10;
             this.btnConnect.Text = "JOIN";
             this.btnConnect.UseVisualStyleBackColor = false;
@@ -216,8 +217,8 @@ namespace Client
             this.btnEndCall.BackColor = System.Drawing.Color.Red;
             this.btnEndCall.BackgroundImage = global::Client.Properties.Resources.icons8_delete_32px1;
             this.btnEndCall.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.btnEndCall.FlatAppearance.BorderColor = System.Drawing.Color.PowderBlue;
-            this.btnEndCall.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.btnEndCall.FlatAppearance.BorderColor = System.Drawing.Color.Red;
+            this.btnEndCall.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEndCall.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEndCall.Location = new System.Drawing.Point(643, 108);
             this.btnEndCall.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
@@ -238,10 +239,10 @@ namespace Client
             this.btnCall.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
             this.btnCall.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnCall.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCall.Location = new System.Drawing.Point(627, 541);
+            this.btnCall.Location = new System.Drawing.Point(632, 546);
             this.btnCall.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnCall.Name = "btnCall";
-            this.btnCall.Size = new System.Drawing.Size(45, 45);
+            this.btnCall.Size = new System.Drawing.Size(40, 40);
             this.btnCall.TabIndex = 13;
             this.btnCall.UseVisualStyleBackColor = false;
             this.btnCall.Click += new System.EventHandler(this.btnCall_Click);
@@ -256,10 +257,10 @@ namespace Client
             this.btnvoice.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
             this.btnvoice.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnvoice.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnvoice.Location = new System.Drawing.Point(545, 541);
+            this.btnvoice.Location = new System.Drawing.Point(565, 546);
             this.btnvoice.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnvoice.Name = "btnvoice";
-            this.btnvoice.Size = new System.Drawing.Size(40, 45);
+            this.btnvoice.Size = new System.Drawing.Size(40, 40);
             this.btnvoice.TabIndex = 9;
             this.btnvoice.UseVisualStyleBackColor = false;
             this.btnvoice.Click += new System.EventHandler(this.btnvoice_Click);
@@ -273,7 +274,7 @@ namespace Client
             this.btnSend.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
             this.btnSend.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnSend.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSend.Location = new System.Drawing.Point(452, 546);
+            this.btnSend.Location = new System.Drawing.Point(486, 546);
             this.btnSend.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.btnSend.Name = "btnSend";
             this.btnSend.Size = new System.Drawing.Size(50, 40);
@@ -286,7 +287,7 @@ namespace Client
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.PowderBlue;
-            this.ClientSize = new System.Drawing.Size(684, 641);
+            this.ClientSize = new System.Drawing.Size(684, 611);
             this.Controls.Add(this.btnEndCall);
             this.Controls.Add(this.lbCallTime);
             this.Controls.Add(this.btnCall);
