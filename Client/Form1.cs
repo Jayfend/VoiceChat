@@ -19,7 +19,7 @@ using NAudio.Utils;
 using Models.Functions;
 using System.Diagnostics;
 
-namespace Client
+namespace Client// Bán 1 tr
 {
     public partial class Form1 : Form
     {
